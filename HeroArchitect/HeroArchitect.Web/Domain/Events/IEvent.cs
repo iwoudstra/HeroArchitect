@@ -2,6 +2,6 @@
 
 public interface IEvent
 {
-    public Guid PlayerId { get; set; }
-    public int Order { get; set; }
+    public Guid PlayerId { get; }
+    public int Order { get; }
 }
