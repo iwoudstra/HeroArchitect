@@ -9,11 +9,17 @@ public class TurnEndEventHandler : IEventHandler<TurnEndEvent>
         var nextPlayer = game.GetNextTurnPlayer();
         if (nextPlayer is null)
         {
-            game.HandleEvent(new RoundEndEvent(Guid.Empty, game.NextEventOrder));
+            game.HandleEvent(new RoundBeginEvent(Guid.Empty, game.NextEventOrder));
         }
         else
         {
             // notify player?
         }
+    }
+
+    public bool IsAllowed(Game game, TurnEndEvent _event)
+    {
+
+        return true;
     }
 }

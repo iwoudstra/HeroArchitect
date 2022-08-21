@@ -1,8 +1,8 @@
 ﻿namespace HeroArchitect.Web.Domain.Events;
 
-public class RoundEndEvent : IEvent
+public class RoundBeginEvent : IDerivedEvent
 {
-    public RoundEndEvent(Guid playerId, int order)
+    public RoundBeginEvent(Guid playerId, int order)
     {
         PlayerId = playerId;
         Order = order;

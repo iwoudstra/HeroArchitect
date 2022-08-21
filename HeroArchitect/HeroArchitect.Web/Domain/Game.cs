@@ -16,6 +16,12 @@ public class Game
     public Guid Id { get; }
     public IReadOnlyCollection<Player> Players { get; }
     public IReadOnlyCollection<IEvent> Events => _events.AsReadOnly();
+
+    internal Player GetPlayer(Guid playerId)
+    {
+        return Players.Single(x => x.Id == playerId);
+    }
+
     public Player CurrentPlayer { get; private set; }
     public int Round { get; private set; }
     public int NextEventOrder => _events.Count + 1;

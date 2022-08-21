@@ -10,5 +10,5 @@ public class Player
 
     public Guid Id { get; }
     public string Name { get; private set; }
-    public SpecialUnit? CurrentSpecialUnit { get; private set; }
+    public SpecialUnit? CurrentSpecialUnit { get; internal set; }
 }
