@@ -1,4 +1,6 @@
 using HeroArchitect.Web.Data;
+using HeroArchitect.Web.Domain;
+using HeroArchitect.Web.Domain.Events;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -27,5 +29,8 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+var game = new Game(Guid.NewGuid(), new List<Player>() { new Player(Guid.NewGuid(), "imre") });
+game.HandleEvent(new TurnEndEvent(Guid.NewGuid(), 1));
 
 app.Run();

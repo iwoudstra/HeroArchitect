@@ -11,7 +11,8 @@ public class Game
         CurrentPlayer = players.First();
     }
 
-    private List<IEvent> _events= new();
+    private List<IEvent> _events = new();
+    private GameEventHandler _gameEventHandler = new();
 
     public Guid Id { get; }
     public IReadOnlyCollection<Player> Players { get; }
@@ -33,6 +34,12 @@ public class Game
 
     public void HandleEvent(IEvent _event)
     {
+        if (!_gameEventHandler.IsAllowed(this, _event))
+        {
+            throw new Exception("todo boardgamexception.");
+            //throw new BoardGameException();
+        }
 
+        _gameEventHandler.Handle(this, _event);
     }
 }
