@@ -18,8 +18,10 @@ public class GameEventHandler : IEventHandler<IEvent>
                 var genericType = typeof(IEventHandler<>);
                 var implementationTypes = typeof(GameEventHandler).Assembly
                     .GetTypes()
-                    .Where(x => x != typeof(EventHandlerDelegate<>) && x != typeof(GameEventHandler) 
-                        && x.GetInterfaces().Any(y => y.IsGenericType && y.GetGenericTypeDefinition() == genericType && y.GenericTypeArguments.Length > 0 && y.GenericTypeArguments[0].IsAssignableTo(typeof(IEvent))));
+                    .Where(x => x.GetInterfaces().Any(y => y.IsGenericType 
+                        && y.GetGenericTypeDefinition() == genericType 
+                        && y.GenericTypeArguments.FirstOrDefault()?.IsAssignableTo(typeof(IEvent)) == true 
+                        && y.GenericTypeArguments.FirstOrDefault() != typeof(IEvent)));
 
                 foreach (var implementationType in implementationTypes)
                 {
