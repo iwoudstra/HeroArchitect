@@ -2,12 +2,10 @@
 
 public class RoundBeginEvent : IDerivedEvent
 {
-    public RoundBeginEvent(Guid playerId, int order)
+    public RoundBeginEvent(Guid playerId)
     {
         PlayerId = playerId;
-        Order = order;
     }
 
     public Guid PlayerId { get; }
-    public int Order { get; }
 }
