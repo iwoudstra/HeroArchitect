@@ -6,7 +6,7 @@ public class GameBeginEventHandler : IEventHandler<GameBeginEvent>
 {
     public void Handle(Game game, GameBeginEvent _event)
     {
-        foreach(var player in game.Players)
+        foreach (var player in game.Players)
         {
             player.SetInitialResources(_event.BeginResources);
         }

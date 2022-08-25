@@ -1,7 +1,53 @@
 ﻿@page "/"
+@using HeroArchitect.Web.Domain.State
+@inject IStateContainer stateContainer
 
 <PageTitle>Welcome to the game</PageTitle>
 
-<h1>Hello, world!!</h1>
+<h1>Welcome to Hero Architect, join or create a lobby</h1>
 
-Welcome to your new app. And something
+<table>
+	<thead>
+		<tr>
+			<th style="min-width: 100px;">Name</th>
+			<th style="min-width: 100px;">Players</th>
+			<th style="min-width: 100px;">Max players</th>
+			<th style="min-width: 100px;"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><input type="text" @bind-value="newLobbyName" /></td>
+			<td></td>
+			<td><input type="number" @bind-value="newMaxPlayers" /></td>
+			<td><button @onclick="@(e => CreateLobby())">Create Lobby</button></td>
+		</tr>
+		@foreach (var lobby in stateContainer.Lobbies)
+		{
+			<tr>
+				<td>@lobby.Name</td>
+				<td>@lobby.Users.Count</td>
+				<td>@lobby.MaxPlayers</td>
+				<td><button @onclick="@(e => JoinLobby(lobby.Id))">Join Lobby</button></td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+
+
+@code
+{
+	private string newLobbyName = string.Empty;
+	private int newMaxPlayers = 4;
+
+	private void CreateLobby()
+	{
+		stateContainer.CreateLobby(newLobbyName, newMaxPlayers).JoinLobby(new Domain.User(Guid.NewGuid(), "abc"));
+	}
+
+	private void JoinLobby(Guid lobbyId)
+	{
+		stateContainer.JoinLobby(lobbyId, new Domain.User(Guid.NewGuid(), "Def"));
+	}
+}

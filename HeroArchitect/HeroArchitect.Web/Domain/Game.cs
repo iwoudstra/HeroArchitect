@@ -11,6 +11,9 @@ public class Game
         CurrentPlayer = players.First();
     }
 
+    private static Game instance;
+    public static Game Instance { get { return instance; } }
+
     private List<IEvent> _events = new();
     private GameEventHandler _gameEventHandler = new();
 

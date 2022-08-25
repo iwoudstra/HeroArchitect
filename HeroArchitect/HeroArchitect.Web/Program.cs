@@ -1,15 +1,14 @@
-using HeroArchitect.Web.Data;
 using HeroArchitect.Web.Domain;
 using HeroArchitect.Web.Domain.Events;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using HeroArchitect.Web.Domain.State;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+
+builder.Services.AddSingleton<IStateContainer, StateContainer>();
 
 var app = builder.Build();
 
