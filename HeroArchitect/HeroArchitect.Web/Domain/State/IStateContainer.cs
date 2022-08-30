@@ -8,5 +8,6 @@ namespace HeroArchitect.Web.Domain.State
 
 		public Lobby CreateLobby(string name, int maxPlayer);
 		public Lobby JoinLobby(Guid lobbyId, User user);
+		public Lobby GetLobby(Guid id);
 	}
 }

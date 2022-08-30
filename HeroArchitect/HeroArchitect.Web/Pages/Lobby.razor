@@ -1,5 +1,33 @@
-﻿<h3>Lobby</h3>
+﻿@page "/lobby/{id}"
+@inject IStateContainer stateContainer
+@inject Session session
+
+<h1>Hello @session.Name</h1>
+<h3>Lobby @DomainLobby.Name</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th style="min-width: 100px;">Name</th>
+			<th style="min-width: 100px;"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var user in DomainLobby.Users)
+		{
+			<tr>
+				<td>@user.Name</td>
+				<td><button @onclick="@(e => {})">Kick user</button></td>
+			</tr>
+		}
+	</tbody>
+</table>
+
 
 @code {
+	[Parameter]
+	public string Id { get; set; } = null!;
+
+	private Domain.Lobby DomainLobby { get { return stateContainer.GetLobby(Guid.Parse(Id)); } }
 
 }

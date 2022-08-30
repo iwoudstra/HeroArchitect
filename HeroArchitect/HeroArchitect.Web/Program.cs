@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
+builder.Services.AddScoped<Session>();
 builder.Services.AddSingleton<IStateContainer, StateContainer>();
 
 var app = builder.Build();

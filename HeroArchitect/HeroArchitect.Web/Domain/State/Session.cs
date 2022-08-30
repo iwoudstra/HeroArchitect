@@ -2,4 +2,5 @@
 
 public class Session
 {
+    public string Name { get; set; } = string.Empty;
 }

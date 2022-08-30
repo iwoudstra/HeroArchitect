@@ -19,14 +19,16 @@ public class Lobby
     private List<User> _users;
     public IReadOnlyCollection<User> Users { get { return _users; } }
 
-    public void JoinLobby(User user)
+    public Lobby JoinLobby(User user)
     {
-        if(_users.Count >= MaxPlayers)
-		{
+        if (_users.Count >= MaxPlayers)
+        {
             throw new ApplicationException($"Lobby is full already has {MaxPlayers} players.");
-		}
+        }
 
         _users.Add(user);
+
+        return this;
     }
 
     public void StartGame()
