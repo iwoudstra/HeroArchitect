@@ -1,6 +1,6 @@
-﻿namespace HeroArchitect.Web.Domain;
+﻿namespace HeroArchitect.App.Domain;
 
-public readonly struct ResourceSet : IEquatable<ResourceSet>
+public readonly struct ResourceSet
 {
     public ResourceSet(int gold = 0, int actions = 0)
     {
@@ -18,7 +18,6 @@ public readonly struct ResourceSet : IEquatable<ResourceSet>
     public int Gold { get; init; }
     public int Actions { get; init; }
 
-
     public bool HasResourcesFor(ResourceSet requiredResources)
     {
         return Gold >= requiredResources.Gold && Actions >= requiredResources.Actions;
@@ -29,12 +28,6 @@ public readonly struct ResourceSet : IEquatable<ResourceSet>
         return obj is ResourceSet set &&
                Gold == set.Gold &&
                Actions == set.Actions;
-    }
-
-    public bool Equals(ResourceSet other)
-    {
-        return Gold == other.Gold &&
-               Actions == other.Actions;
     }
 
     public override int GetHashCode()

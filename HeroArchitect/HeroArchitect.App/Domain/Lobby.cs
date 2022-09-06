@@ -1,4 +1,4 @@
-﻿namespace HeroArchitect.Web.Domain;
+﻿namespace HeroArchitect.App.Domain;
 
 public class Lobby
 {
