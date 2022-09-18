@@ -5,7 +5,7 @@ public class User : IEquatable<User?>
     public User(Guid id, string name)
     {
         Id = id;
-        Name = name;
+        Name = string.IsNullOrEmpty(name) ? $"player-{ id.ToString().Substring(24) }" : name;
     }
 
     public Guid Id { get; }

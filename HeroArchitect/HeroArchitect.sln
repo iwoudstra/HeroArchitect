@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HeroArchitect.Web", "HeroArchitect.Web\HeroArchitect.Web.csproj", "{45A01783-1522-4ED3-AE17-6D674288E421}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "heroarchitect.view", "HeroArchitect.View\heroarchitect.view.esproj", "{05ECFF5D-624B-4369-ABE2-603B4FD1F8C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,12 @@ Global
 		{45A01783-1522-4ED3-AE17-6D674288E421}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45A01783-1522-4ED3-AE17-6D674288E421}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45A01783-1522-4ED3-AE17-6D674288E421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05ECFF5D-624B-4369-ABE2-603B4FD1F8C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05ECFF5D-624B-4369-ABE2-603B4FD1F8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05ECFF5D-624B-4369-ABE2-603B4FD1F8C8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{05ECFF5D-624B-4369-ABE2-603B4FD1F8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05ECFF5D-624B-4369-ABE2-603B4FD1F8C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05ECFF5D-624B-4369-ABE2-603B4FD1F8C8}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

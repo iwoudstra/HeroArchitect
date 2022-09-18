@@ -1,4 +1,6 @@
-﻿namespace HeroArchitect.Web.Domain.State;
+﻿using HeroArchitect.Web.Domain.Exceptions;
+
+namespace HeroArchitect.Web.Domain.State;
 
 public class StateContainer : IStateContainer
 {
@@ -24,7 +26,7 @@ public class StateContainer : IStateContainer
 
         if (lobby is null)
         {
-            throw new ApplicationException($"Lobby with id {lobbyId} could not be found.");
+            throw new GameException($"Lobby with id {lobbyId} could not be found.");
         }
 
         lobby.JoinLobby(user);
