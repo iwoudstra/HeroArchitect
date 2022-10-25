@@ -1,18 +1,18 @@
 ﻿using HeroArchitect.Web.Domain.State;
-using Microsoft.AspNetCore.SignalR;
 
 namespace HeroArchitect.Web.ClientCommunication;
 
-public class GameHub : Hub
+public class GameHub : BaseHub
 {
-    private IStateContainer _stateContainer;
-    private ISessionContainer _sessionContainer;
-
     public GameHub(IStateContainer stateContainer, ISessionContainer sessionContainer)
+        : base(stateContainer, sessionContainer)
     {
-        _stateContainer = stateContainer;
-        _sessionContainer = sessionContainer;
     }
 
+    public async Task JoinGame(Guid gameId)
+    {
+        var game = _stateContainer.GetLobby(gameId);
 
+        await Groups.AddToGroupAsync(Context.ConnectionId, game.Id.ToString());
+    }
 }

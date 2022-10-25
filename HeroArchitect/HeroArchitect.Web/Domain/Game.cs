@@ -1,10 +1,11 @@
 ﻿using HeroArchitect.Web.Domain.Events;
+using HeroArchitect.Web.Domain.Exceptions;
 
 namespace HeroArchitect.Web.Domain;
 
 public class Game
 {
-    public Game(Guid id, List<Player> players)
+    private Game(Guid id, List<Player> players)
     {
         Id = id;
         Players = players;
@@ -18,14 +19,22 @@ public class Game
     public IReadOnlyCollection<Player> Players { get; }
     public IReadOnlyCollection<IEvent> Events => _events.AsReadOnly();
 
-    internal Player GetPlayer(Guid playerId)
-    {
-        return Players.Single(x => x.Id == playerId);
-    }
-
     public Player CurrentPlayer { get; private set; }
     public int Round { get; private set; }
     public int NextEventOrder => _events.Count + 1;
+
+    public static Game StartGame(Lobby lobby)
+    {
+        var players = lobby.Users.Select(x => new Player(Guid.NewGuid(), x.Id, x.Name)).ToList();
+        var game = new Game(Guid.NewGuid(), players);
+
+        return game;
+    }
+
+    public Player GetPlayer(Guid playerId)
+    {
+        return Players.Single(x => x.Id == playerId);
+    }
 
     public Player? GetNextTurnPlayer()
     {
@@ -36,8 +45,7 @@ public class Game
     {
         if (!_gameEventHandler.IsAllowed(this, _event))
         {
-            throw new Exception("todo boardgamexception.");
-            //throw new BoardGameException();
+            throw new GameException("todo boardgamexception.");
         }
 
         _gameEventHandler.Handle(this, _event);

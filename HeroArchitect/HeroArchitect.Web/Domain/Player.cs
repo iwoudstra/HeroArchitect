@@ -4,13 +4,15 @@ namespace HeroArchitect.Web.Domain;
 
 public class Player
 {
-    public Player(Guid id, string name)
+    public Player(Guid id, Guid playerId, string name)
     {
         Id = id;
+        PlayerId = playerId;
         Name = name;
     }
 
     public Guid Id { get; }
+    public Guid PlayerId { get; }
     public string Name { get; private set; }
     public SpecialUnit? CurrentSpecialUnit { get; internal set; }
     public ResourceSet Resources { get; private set; } = ResourceSet.Empty;

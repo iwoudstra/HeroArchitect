@@ -15,8 +15,13 @@ export class serverconnection {
             this.messageHandler(message);
         });
 
-        this.connection.start().then(() => {
+        this.connection.on('Registered', (playerId: string) => {
+            localStorage.setItem('playerId', playerId);
             afterConnect();
+        });
+
+        this.connection.start().then(() => {
+            this.action('Register', localStorage.getItem('playerId'));
         }).catch(function (err) {
             console.error('signalr connection error', err);
         });

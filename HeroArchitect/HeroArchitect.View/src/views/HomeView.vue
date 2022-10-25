@@ -18,6 +18,13 @@ function joinLobby(id: string): void {
 function createLobby(): void {
     lobby.createLobby(lobbyName.value, lobbyMaxPlayerCount.value);
 }
+function showLeaveLobby(id: string): boolean {
+    let lob = lobby.lobbies.get(id)!;
+    return !!lob.users.find(x => x.id === overview.currentUser.id);
+}
+function leaveLobby(id: string): void {
+    lobby.leaveLobby(id);
+}
 </script>
 
 <template>
@@ -64,7 +71,13 @@ function createLobby(): void {
                 <tr v-for="lob in lobby.lobbies.values()">
                     <td>{{ lob.name }}</td>
                     <td>{{ lob.users.length }} / {{ lob.maxPlayers }}</td>
-                    <td><button @click="joinLobby(lob.id)">Join</button></td>
+                    <td>
+                        <button @click="joinLobby(lob.id)">Join</button>
+                        <button
+                            v-if="showLeaveLobby(lob.id)"
+                            @click="leaveLobby(lob.id)"
+                        >Leave</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

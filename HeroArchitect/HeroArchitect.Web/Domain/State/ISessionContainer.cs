@@ -2,6 +2,9 @@
 {
     public interface ISessionContainer
     {
-        User User { get; }
+        SessionState State { get; }
+
+        void RetrieveState(string reference);
+        void Register(string playerId, string reference);
     }
 }

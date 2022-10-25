@@ -1,11 +1,14 @@
 using HeroArchitect.Web.ClientCommunication;
 using HeroArchitect.Web.Domain.State;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR(options =>
 {
-    options.EnableDetailedErrors = true;    
+    options.EnableDetailedErrors = true;
+    options.AddFilter<SignalrExceptionFilter>();
+    options.AddFilter<SignalrSessionFilter>();
 });
 
 builder.Services.AddScoped<ISessionContainer, SessionContainer>();

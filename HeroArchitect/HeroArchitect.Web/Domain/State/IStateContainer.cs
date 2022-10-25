@@ -6,8 +6,13 @@ namespace HeroArchitect.Web.Domain.State
 		IReadOnlyCollection<Game> Games { get; }
 		IReadOnlyCollection<Lobby> Lobbies { get; }
 
-		public Lobby CreateLobby(string name, int maxPlayer);
-		public Lobby JoinLobby(Guid lobbyId, User user);
-		public Lobby GetLobby(Guid id);
-	}
+		Lobby CreateLobby(Guid hostUserId, string name, int maxPlayer);
+		Lobby JoinLobby(Guid lobbyId, User user);
+		Lobby GetLobby(Guid id);
+		Lobby? LeaveLobby(Guid lobbyId, User user);
+		SessionState GetSessionState(string reference);
+        SessionState Register(string playerId, string reference);
+        Game CreateGame(Lobby lobby);
+		Game GetGame(Guid id);
+    }
 }

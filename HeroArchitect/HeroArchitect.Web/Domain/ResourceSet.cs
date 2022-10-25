@@ -8,12 +8,12 @@ public readonly struct ResourceSet : IEquatable<ResourceSet>
         Actions = actions;
     }
 
-    public static ResourceSet operator -(ResourceSet a, ResourceSet b) => new ResourceSet(a.Gold - b.Gold, a.Actions - b.Actions);
-    public static ResourceSet operator +(ResourceSet a, ResourceSet b) => new ResourceSet(a.Gold + b.Gold, a.Actions + b.Actions);
+    public static ResourceSet operator -(ResourceSet a, ResourceSet b) => new(a.Gold - b.Gold, a.Actions - b.Actions);
+    public static ResourceSet operator +(ResourceSet a, ResourceSet b) => new(a.Gold + b.Gold, a.Actions + b.Actions);
     public static bool operator ==(ResourceSet a, ResourceSet b) => a.Gold == b.Gold && a.Actions == b.Actions;
     public static bool operator !=(ResourceSet a, ResourceSet b) => a.Gold != b.Gold || a.Actions != b.Actions;
 
-    public static ResourceSet Empty => new ResourceSet();
+    public static ResourceSet Empty => new();
 
     public int Gold { get; init; }
     public int Actions { get; init; }

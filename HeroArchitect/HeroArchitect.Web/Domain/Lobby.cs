@@ -2,15 +2,18 @@
 
 public class Lobby
 {
-    public Lobby(Guid id, string name, int maxPlayers)
+    public Lobby(Guid id, Guid hostUserId, string name, int maxPlayers)
     {
         Id = id;
+        HostUserId = hostUserId;
         Name = name;
         MaxPlayers = maxPlayers;
         _users = new List<User>();
     }
 
     public Guid Id { get; }
+
+    public Guid HostUserId { get; }
 
     public string Name { get; }
 
@@ -36,8 +39,18 @@ public class Lobby
         return this;
     }
 
-    public void StartGame()
+    public void LeaveLobby(User user)
     {
-        //todo
+        _users.Remove(user);
+    }
+
+    public Game StartGame()
+    {
+        return Game.StartGame(this);
+    }
+
+    public void KickUser(Guid userId)
+    {
+        _users.RemoveAll(x => x.Id == userId && x.Id != HostUserId);
     }
 }

@@ -5,15 +5,11 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace HeroArchitect.Web.ClientCommunication;
 
-public class OverviewHub : Hub
+public class OverviewHub : BaseHub
 {
-    private IStateContainer _stateContainer;
-    private ISessionContainer _sessionContainer;
-
     public OverviewHub(IStateContainer stateContainer, ISessionContainer sessionContainer)
+        : base(stateContainer, sessionContainer)
     {
-        _stateContainer = stateContainer;
-        _sessionContainer = sessionContainer;
     }
 
     public async Task GetState()
@@ -23,13 +19,13 @@ public class OverviewHub : Hub
 
     public async Task SetName(string name)
     {
-        _sessionContainer.User.Name = name;
+        _sessionContainer.State.User.Name = name;
 
         await SendState();
     }
 
     private async Task SendState()
     {
-        await Clients.Caller.SendAsync("ReceiveMessage", new GameMessage<User>("stateChanged", _sessionContainer.User));
+        await Clients.Caller.SendAsync("ReceiveMessage", new GameMessage<User>("stateChanged", _sessionContainer.State.User));
     }
 }

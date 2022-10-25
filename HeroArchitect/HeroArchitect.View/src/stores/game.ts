@@ -1,25 +1,27 @@
 import { defineStore } from 'pinia'
 import { serverconnection } from '@/serverconnection';
 import type { gameMessage } from '@/models/gameMessage';
-import type { gameUser } from '@/models/gameUser';
+import type { gameState } from '@/models/gameState';
 
 function messageHandler(message: gameMessage): void {
-    let overview = overviewStore();
-    overview.handleMessage(message);
+    let game = gameStore();
+    game.handleMessage(message);
 }
 
-export const overviewStore = defineStore({
-    id: 'overview',
+export const gameStore = defineStore({
+    id: 'lobby',
     state: () => {
-        let conn = new serverconnection('overview', messageHandler);
+        let conn = new serverconnection('game', messageHandler);
         conn.connect(() => {
             conn.action('GetState');
         });
 
         return {
-            currentUser: {},
+            gameStates: new Map<string, gameState>(),
             connection: conn
-        } as OverviewModel
+        } as GameModel
+    },
+    getters: {
     },
     actions: {
         handleMessage(message: gameMessage) {
@@ -27,18 +29,11 @@ export const overviewStore = defineStore({
             func(message.message);
         },
         //callbacks
-        stateChanged(user: gameUser) {
-            this.currentUser = user;
-        },
-
         //actions
-        setName(newName: string) {
-            this.connection.action('SetName', newName);
-        }
     }
 });
 
-export interface OverviewModel {
-    currentUser: gameUser;
+export interface GameModel {
+    gameStates: Map<string, gameState>;
     connection: serverconnection;
 }

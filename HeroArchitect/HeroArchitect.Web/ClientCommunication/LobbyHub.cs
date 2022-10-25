@@ -1,42 +1,81 @@
 ﻿using HeroArchitect.Web.Domain;
+using HeroArchitect.Web.Domain.Events;
+using HeroArchitect.Web.Domain.Exceptions;
 using HeroArchitect.Web.Domain.FrontendCommunication;
 using HeroArchitect.Web.Domain.State;
 using Microsoft.AspNetCore.SignalR;
 
 namespace HeroArchitect.Web.ClientCommunication;
 
-public class LobbyHub : Hub
+public class LobbyHub : BaseHub
 {
-    private IStateContainer _stateContainer;
-    private ISessionContainer _sessionContainer;
-
     public LobbyHub(IStateContainer stateContainer, ISessionContainer sessionContainer)
+        : base(stateContainer, sessionContainer)
     {
-        _stateContainer = stateContainer;
-        _sessionContainer = sessionContainer;
     }
 
     public async Task GetState()
     {
-        await SendState();
+        await Clients.Caller.SendAsync("ReceiveMessage", new GameMessage<IReadOnlyCollection<Lobby>>("stateChanged", _stateContainer.Lobbies));
     }
 
     public async Task JoinLobby(Guid lobbyId)
     {
-        _stateContainer.JoinLobby(lobbyId, _sessionContainer.User);
+        var lobby = _stateContainer.JoinLobby(lobbyId, _sessionContainer.State.User);
 
-        await SendState();
+        await Groups.AddToGroupAsync(Context.ConnectionId, lobby.Id.ToString());
+
+        await Clients.All.SendAsync("ReceiveMessage", new GameMessage<Lobby>("lobbyChanged", lobby));
+        await Clients.Caller.SendAsync("ReceiveMessage", new GameMessage<Lobby>("lobbyJoined", lobby));
+    }
+
+    public async Task LeaveLobby(Guid lobbyId)
+    {
+        var lobby = _stateContainer.LeaveLobby(lobbyId, _sessionContainer.State.User);
+
+        if (lobby is null)
+        {
+            await Clients.All.SendAsync("ReceiveMessage", new GameMessage<Guid>("lobbyDeleted", lobbyId));
+        }
+        else
+        {
+            await Clients.All.SendAsync("ReceiveMessage", new GameMessage<Lobby>("lobbyChanged", lobby));
+        }
+
+        await Clients.Caller.SendAsync("ReceiveMessage", new GameMessage<Guid>("lobbyLeft", lobbyId));
     }
 
     public async Task CreateLobby(string name, int maxPlayerCount)
     {
-        var lobby = _stateContainer.CreateLobby(name, maxPlayerCount);
+        var lobby = _stateContainer.CreateLobby(_sessionContainer.State.User.Id, name, maxPlayerCount);
 
         await JoinLobby(lobby.Id);
     }
 
-    private async Task SendState()
+    public async Task KickUser(Guid lobbyId, Guid userId)
     {
-        await Clients.Caller.SendAsync("ReceiveMessage", new GameMessage<IReadOnlyCollection<Lobby>>("stateChanged", _stateContainer.Lobbies));
+        var lobby = _stateContainer.LeaveLobby(lobbyId, _sessionContainer.State.User);
+
+        if (lobby is not null)
+        {
+            lobby.KickUser(userId);
+
+            await Clients.All.SendAsync("ReceiveMessage", new GameMessage<Lobby>("lobbyChanged", lobby));
+        }
+    }
+
+    public async Task StartGame(Guid lobbyId)
+    {
+        var lobby = _stateContainer.GetLobby(lobbyId);
+
+        if (lobby.HostUserId != _sessionContainer.State.User.Id)
+        {
+            throw new GameException("Cannot start game, you are not the host.");
+        }
+
+        var game = _stateContainer.CreateGame(lobby);
+        game.HandleEvent(new GameBeginEvent(new ResourceSet(3, 1)));
+
+        await Clients.Group(lobby.Id.ToString()).SendAsync("ReceiveMessage", new GameMessage<Guid>("gameStarted", game.Id));
     }
 }
