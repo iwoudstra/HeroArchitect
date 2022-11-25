@@ -2,12 +2,12 @@
 
 public class SpecialUnitDecisionEvent : IEvent
 {
-    public SpecialUnitDecisionEvent(Guid playerId, SpecialUnit specialUnit)
+    public SpecialUnitDecisionEvent(Guid playerId, SpecialUnitType specialUnit)
     {
         PlayerId = playerId;
         SpecialUnit = specialUnit;
     }
 
     public Guid PlayerId { get; set; }
-    public SpecialUnit SpecialUnit { get; set; }
+    public SpecialUnitType SpecialUnit { get; set; }
 }

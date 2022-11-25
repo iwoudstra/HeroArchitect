@@ -14,7 +14,7 @@ public class Player
     public Guid Id { get; }
     public Guid PlayerId { get; }
     public string Name { get; private set; }
-    public SpecialUnit? CurrentSpecialUnit { get; internal set; }
+    public SpecialUnitType? CurrentSpecialUnit { get; internal set; }
     public ResourceSet Resources { get; private set; } = ResourceSet.Empty;
 
     internal void SetInitialResources(ResourceSet beginResources)

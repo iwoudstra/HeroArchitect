@@ -33,10 +33,7 @@ function startGame() {
     <main>
         <h1>Lobby {{ lobbyObj.name }}</h1>
         <button @click="leaveLobby()">Leave</button>
-        <button
-            v-if="showStartGame()"
-            @click="startGame()"
-        >Start game</button>
+        <button v-if="showStartGame()" @click="startGame()">Start game</button>
 
         <h2>Players</h2>
         <table>
@@ -47,13 +44,10 @@ function startGame() {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="player in lobbyObj.users">
+                <tr v-for="player in lobbyObj.users" v-bind:key="player.id">
                     <td>{{ player.name }}</td>
                     <td>
-                        <button
-                            v-if="showKickUser(player.id)"
-                            @click="kickUser(player.id)"
-                        >Kick</button>
+                        <button v-if="showKickUser(player.id)" @click="kickUser(player.id)">Kick</button>
                     </td>
                 </tr>
             </tbody>
